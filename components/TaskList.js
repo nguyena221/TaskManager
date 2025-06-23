@@ -2,6 +2,7 @@ import React from "react";
 import { FlatList, View, Text, StyleSheet, Dimensions, PixelRatio } from "react-native";
 import Task from "./Task";
 
+// Responsive font scaling utility
 const { width } = Dimensions.get("window");
 const scale = width / 375;
 
@@ -10,6 +11,15 @@ function normalize(size) {
   return Math.round(PixelRatio.roundToNearestPixel(newSize));
 }
 
+/**
+ * TaskList component renders a scrollable list of tasks.
+ * Shows a message when the list is empty.
+ * Props:
+ * - tasks: array of task objects
+ * - onToggleComplete: callback to toggle completion status
+ * - onDelete: callback to delete a task
+ * - onEdit: callback to edit a task
+ */
 export default function TaskList({ tasks, onToggleComplete, onDelete, onEdit }) {
   if (tasks.length === 0) {
     return (
