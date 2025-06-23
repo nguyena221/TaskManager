@@ -51,6 +51,11 @@ Once the app is installed and opened in Expo, you’ll see the greeting and your
 2. Expo
 3. JavaScript
 
+## Third-Party Libraries Used:
+- [react-native-responsive-fontsize](https://www.npmjs.com/package/react-native-responsive-fontsize): For responsive, screen-adaptive font sizing.
+- [@expo/vector-icons](https://docs.expo.dev/guides/icons/): Provides a wide selection of customizable icons, including checkboxes and trash icons used in the task list.
+- [expo](https://expo.dev/): Framework and platform for universal React applications. Used to quickly set up, develop, and run the app.
+
 ## Contact/Author
 
 Created by **Annie Nguyen**.
