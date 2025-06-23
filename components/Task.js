@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
+// Responsive scaling utility based on device width
 const { width } = Dimensions.get("window");
 const scale = width / 375;
 
@@ -18,10 +19,22 @@ function normalize(size) {
   return Math.round(PixelRatio.roundToNearestPixel(newSize));
 }
 
+/**
+ * Task component renders an individual task item with animations.
+ * Supports toggling completion, editing, and deleting with animations.
+ *
+ * Props:
+ * - task: task object containing id, text, description, and completed status
+ * - onToggleComplete: function to toggle task completion
+ * - onDelete: function to delete task
+ * - onEdit: function to start editing task
+ */
 export default function Task({ task, onToggleComplete, onDelete, onEdit }) {
+  // Animation values for fade and slide effects on delete
   const fadeAnim = useRef(new Animated.Value(1)).current;
   const slideAnim = useRef(new Animated.Value(0)).current;
 
+  // Animate and then delete task
   const handleDelete = () => {
     Animated.parallel([
       Animated.timing(fadeAnim, {
@@ -50,6 +63,7 @@ export default function Task({ task, onToggleComplete, onDelete, onEdit }) {
         },
       ]}
     >
+      {/* Touchable area to toggle task completion */}
       <TouchableOpacity
         onPress={() => onToggleComplete(task.id)}
         style={styles.textWrapper}
@@ -65,9 +79,11 @@ export default function Task({ task, onToggleComplete, onDelete, onEdit }) {
           style={{ marginRight: normalize(10) }}
         />
         <View style={styles.textContainer}>
+          {/* Task title */}
           <Text style={[styles.text, task.completed && styles.completedText]}>
             {task.text}
           </Text>
+          {/* Optional task description */}
           {task.description ? (
             <Text
               style={[
@@ -81,6 +97,7 @@ export default function Task({ task, onToggleComplete, onDelete, onEdit }) {
         </View>
       </TouchableOpacity>
 
+      {/* Edit button */}
       <TouchableOpacity onPress={() => onEdit(task)} style={styles.editButton}>
         <MaterialCommunityIcons
           name="pencil-outline"
@@ -89,6 +106,7 @@ export default function Task({ task, onToggleComplete, onDelete, onEdit }) {
         />
       </TouchableOpacity>
 
+      {/* Delete button */}
       <TouchableOpacity onPress={handleDelete} style={styles.deleteButton}>
         <MaterialCommunityIcons
           name="trash-can-outline"
