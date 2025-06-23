@@ -12,14 +12,33 @@ import {
   PixelRatio,
 } from "react-native";
 
+// Get device width for responsive scaling
 const { width } = Dimensions.get("window");
 const scale = width / 375;
 
+/**
+ * Utility to normalize font and size values based on device width
+ */
 function normalize(size) {
   const newSize = size * scale;
   return Math.round(PixelRatio.roundToNearestPixel(newSize));
 }
 
+/**
+ * AddTaskModal component renders a modal for adding or editing tasks.
+ * Includes fields for task name and description, with buttons to add/save or cancel.
+ *
+ * Props:
+ * - visible: controls modal visibility
+ * - onClose: function to close modal
+ * - newTask: current task name input value
+ * - setNewTask: setter for task name input
+ * - newDescription: current description input value
+ * - setNewDescription: setter for description input
+ * - onAddTask: handler when adding a new task
+ * - isEditing: boolean indicating edit mode (defaults false)
+ * - onEditTask: handler when saving edited task
+ */
 export default function AddTaskModal({
   visible,
   onClose,
@@ -36,9 +55,10 @@ export default function AddTaskModal({
       animationType="slide"
       transparent={true}
       visible={visible}
-      onRequestClose={onClose}
+      onRequestClose={onClose} // Android back button handler
     >
       <View style={styles.modalBackground}>
+        {/* KeyboardAvoidingView ensures inputs are visible when keyboard is open */}
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.keyboardView}
@@ -48,6 +68,7 @@ export default function AddTaskModal({
               {isEditing ? "Edit Task" : "Create a new task:"}
             </Text>
 
+            {/* Task name input */}
             <Text style={styles.instructions}>Task name</Text>
             <TextInput
               style={styles.underlineInput}
@@ -57,6 +78,7 @@ export default function AddTaskModal({
               onChangeText={setNewTask}
             />
 
+            {/* Description input */}
             <Text style={styles.instructions}>Add a brief description</Text>
             <TextInput
               style={styles.underlineInput}
@@ -66,6 +88,7 @@ export default function AddTaskModal({
               onChangeText={setNewDescription}
             />
 
+            {/* Add or Save button */}
             <TouchableOpacity
               style={styles.modalAddButton}
               onPress={isEditing ? onEditTask : onAddTask}
@@ -75,6 +98,7 @@ export default function AddTaskModal({
               </Text>
             </TouchableOpacity>
 
+            {/* Cancel button */}
             <TouchableOpacity
               style={styles.modalCancelButton}
               onPress={onClose}
@@ -91,7 +115,7 @@ export default function AddTaskModal({
 const styles = StyleSheet.create({
   modalBackground: {
     flex: 1,
-    justifyContent: "flex-end",
+    justifyContent: "flex-end", // Align modal at the bottom
     alignItems: "flex-end",
   },
   keyboardView: {
