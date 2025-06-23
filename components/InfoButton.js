@@ -7,8 +7,16 @@ import {
 } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 
+// Get device dimensions for responsive styling
 const { width, height } = Dimensions.get("window");
 
+/**
+ * InfoButton component renders a circular "i" button.
+ * Positioned absolutely, it triggers a provided onPress handler.
+ *
+ * Props:
+ * - onPress: function to be called when the button is pressed
+ */
 export default function InfoButton({ onPress }) {
   return (
     <TouchableOpacity style={styles.infoButton} onPress={onPress}>
@@ -32,11 +40,11 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5,
+    elevation: 5, // Android shadow
   },
   infoButtonText: {
     color: "#f1eada",
-    fontSize: RFValue(18),
+    fontSize: RFValue(18), // Responsive font size
     fontWeight: "bold",
   },
 });
