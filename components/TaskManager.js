@@ -16,6 +16,7 @@ import AddButton from "./AddButton";
 import AddTaskModal from "./AddTaskModal";
 import InfoButton from "./InfoButton";
 
+// Responsive font sizing utility based on device width
 const { width } = Dimensions.get("window");
 const scale = width / 375;
 
@@ -25,14 +26,18 @@ function normalize(size) {
 }
 
 export default function TaskManager() {
+  // Task list state management
   const [tasks, setTasks] = useState([]);
+  // Modal visibility states for add/edit and info popups
   const [modalVisible, setModalVisible] = useState(false);
+  const [infoVisible, setInfoVisible] = useState(false);
+  // Inputs and editing state tracking
   const [newTask, setNewTask] = useState("");
   const [newDescription, setNewDescription] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [editingTaskId, setEditingTaskId] = useState(null);
-  const [infoVisible, setInfoVisible] = useState(false);
 
+  // Adds a new task to the list
   const addTask = () => {
     if (!newTask.trim()) return;
 
@@ -47,6 +52,7 @@ export default function TaskManager() {
     resetModal();
   };
 
+  // Resets modal inputs and editing state
   const resetModal = () => {
     setNewTask("");
     setNewDescription("");
@@ -55,6 +61,7 @@ export default function TaskManager() {
     setModalVisible(false);
   };
 
+  // Prepares modal with task data for editing
   const startEditingTask = (task) => {
     setNewTask(task.text);
     setNewDescription(task.description);
@@ -63,6 +70,7 @@ export default function TaskManager() {
     setModalVisible(true);
   };
 
+  // Applies edits to the selected task
   const editTask = () => {
     if (!newTask.trim()) return;
 
@@ -76,6 +84,7 @@ export default function TaskManager() {
     resetModal();
   };
 
+  // Toggles completion status of a task
   const toggleComplete = (id) => {
     setTasks((prev) =>
       prev.map((task) =>
@@ -84,21 +93,25 @@ export default function TaskManager() {
     );
   };
 
+  // Removes a task by id
   const deleteTask = (id) => {
     setTasks((prev) => prev.filter((task) => task.id !== id));
   };
 
   return (
     <SafeAreaView style={styles.container}>
+      {/* Handles keyboard behavior on iOS and Android */}
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}
       >
+        {/* Header section */}
         <View style={styles.textContainer}>
           <Text style={styles.helloText}>Hello!</Text>
           <Text style={styles.titleText}>Manage your daily tasks:</Text>
         </View>
 
+        {/* Task list display with handlers for complete, edit, and delete */}
         <TaskList
           tasks={tasks}
           onToggleComplete={toggleComplete}
@@ -106,9 +119,11 @@ export default function TaskManager() {
           onEdit={startEditingTask}
         />
 
+        {/* Floating action buttons */}
         <AddButton onPress={() => setModalVisible(true)} />
         <InfoButton onPress={() => setInfoVisible(true)} />
 
+        {/* Modal for adding or editing tasks */}
         <AddTaskModal
           visible={modalVisible}
           onClose={resetModal}
@@ -121,6 +136,7 @@ export default function TaskManager() {
           onEditTask={editTask}
         />
 
+        {/* Modal popup for app information */}
         <Modal
           animationType="fade"
           transparent={true}
